@@ -1,0 +1,13 @@
+{
+    "idSave": 5,
+    "isFirstSession": false,
+    "language": "ru",
+    "promptDone": false,
+    "newPlayerName": "Hello!",
+    "openLevels": [
+        false,
+        true,
+        false
+    ],
+    "woodCount": 14
+}

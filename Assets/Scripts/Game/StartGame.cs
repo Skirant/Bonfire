@@ -1,14 +1,21 @@
 using UnityEngine;
+using YG;
 
 public class StartGame : MonoBehaviour
 {
-    private bool isGameStarted = false;
+    [HideInInspector] public bool isGameStarted = false;
 
     public PlayerController playerController;
     public ObjectSpawner objectSpawner;
     public Timer timer;
 
     public Canvas StartCanvas;
+    public Canvas GameOverCanvas;
+    public GameObject Timer;
+
+    private bool gameOverProcessed = false;
+
+    private float fullscreenShowTimer = 0;
 
     //public GameObject timerSlider;    
 
@@ -19,7 +26,7 @@ public class StartGame : MonoBehaviour
         playerController.enabled = false;
         objectSpawner.enabled = false;
         timer.enabled = false;
-       // timerSlider.SetActive(false);
+        // timerSlider.SetActive(false);
     }
 
     void Update()
@@ -28,14 +35,61 @@ public class StartGame : MonoBehaviour
         {
             // Здесь мы возобновляем игру после первого нажатия пробела
             Time.timeScale = 1;
-            isGameStarted = true;
             playerController.enabled = true;
             objectSpawner.enabled = true;
             timer.enabled = true;
 
-           // timerSlider.SetActive(true);
+            // timerSlider.SetActive(true);
 
-            StartCanvas.enabled = false;           
+            StartCanvas.enabled = false;
+
+            objectSpawner.Spawn();
+
+            isGameStarted = true;
         }
-    }   
+
+        if (!isGameStarted)
+        {
+            SnowADD();
+        }
+
+        if (objectSpawner.GameOver && !gameOverProcessed)
+        {
+            GameOver();
+        }
+    }
+
+    void GameOver()
+    {
+        Debug.Log("+");
+
+        playerController.enabled = false;
+        objectSpawner.enabled = false;
+        Timer.SetActive(false);
+
+        GameOverCanvas.enabled = true;
+
+        gameOverProcessed = true;
+
+        GameObject taggedObject = GameObject.FindWithTag("Canvas");
+        Animator animator = taggedObject.GetComponent<Animator>();
+        animator.SetTrigger("GameOver");
+
+        MySave();
+    }
+
+    void SnowADD()
+    {
+        if (Time.realtimeSinceStartup - fullscreenShowTimer >= 20)
+        {
+            YandexGame.FullscreenShow();
+            fullscreenShowTimer = Time.realtimeSinceStartup; // Сбрасываем таймер
+        }
+    }
+
+    public void MySave()
+    {
+        // Теперь остаётся сохранить данные
+        YandexGame.SaveProgress();
+    }
 }

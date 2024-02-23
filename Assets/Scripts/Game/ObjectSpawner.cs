@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using YG;
 
 public class ObjectSpawner : MonoBehaviour
 {
@@ -16,13 +17,38 @@ public class ObjectSpawner : MonoBehaviour
 
     public int woodCount = 0;
     public TextMeshProUGUI score;
+    public TextMeshProUGUI MaxScore;
+
+    public bool GameOver = false;
+
+    public UIManager uiManager;
+    public ButtonUI buttonUI;
+
+    private int RecordScore;
+
+    // Подписываемся на событие GetDataEvent в OnEnable
+    private void OnEnable() => YandexGame.GetDataEvent += GetLoad;
+
+    // Отписываемся от события GetDataEvent в OnDisable
+    private void OnDisable() => YandexGame.GetDataEvent -= GetLoad;
 
     void Awake()
     {
-        woodCount = 0;   
-        score.text = woodCount.ToString();
+        woodCount = 0;
+        uiManager.UpdateScoreText(woodCount);
+    }
 
-        Spawn();
+    private void Start()
+    {
+        // Проверяем запустился ли плагин
+        if (YandexGame.SDKEnabled == true)
+        {
+            // Если запустился, то выполняем Ваш метод для загрузки
+            GetLoad();
+
+            // Если плагин еще не прогрузился, то метод не выполнится в методе Start,
+            // но он запустится при вызове события GetDataEvent, после прогрузки плагина
+        }
     }
 
     void Update()
@@ -60,7 +86,7 @@ public class ObjectSpawner : MonoBehaviour
         spawnedObjects.Clear();
     }
 
-    void Spawn()
+    public void Spawn()
     {
         // Определите, с какой стороны появится древесина
         side = Random.Range(0, 2);
@@ -83,30 +109,61 @@ public class ObjectSpawner : MonoBehaviour
         {
             if (pickSide == side && obj.name.Contains(wood.name))
             {
-                Debug.Log("Вы подобрали дерево");
+                //Debug.Log("Вы подобрали дерево");
                 isEmpty = false;
                 timer.timer += 1f; // add one second
                 ScoreIncreasing();
+
+                FindObjectOfType<AudioManager>().Play("WoodOn");
+
+                /*GameObject taggedObject = GameObject.FindWithTag("Wood");
+                Animator animator = taggedObject.GetComponent<Animator>();
+                animator.SetBool("Click", true);*/
+
                 break;
             }
             else if (pickSide != side && obj.name.Contains(bomb.name))
             {
-                Debug.Log("Взрыв");
+                Debug.Log("Game Over");
                 isEmpty = false;
-                timer.timer -= 1f; // subtract one second
+                timer.timer -= timer.timer; // subtract one second
+
+                FindObjectOfType<AudioManager>().Play("Explosion");
+
+                GameOver = true;
+
+                if (RecordScore < woodCount)
+                {
+                    // Записываем данные в плагин
+                    // Например, мы хотил сохранить количество монет игрока:
+                    YandexGame.savesData.woodCount = woodCount;
+                    MaxScore.text = woodCount.ToString();
+                    RecordScore = woodCount;
+                    buttonUI.addition(woodCount);
+                }
+
                 break;
             }
         }
 
         if (isEmpty)
         {
-            Debug.Log("Пропуск");
+            //Debug.Log("Пропуск");
         }
     }
 
     void ScoreIncreasing()
     {
         woodCount++;
-        score.text = woodCount.ToString();
+        uiManager.UpdateScoreText(woodCount);
+    }
+
+    public void GetLoad()
+    {
+        // Получаем данные из плагина и делаем с ними что хотим
+        // Например, мы хотил записать в компонент UI.Text сколько у игрока монет:
+        MaxScore.text = YandexGame.savesData.woodCount.ToString();
+        RecordScore = YandexGame.savesData.woodCount;
+        buttonUI.addition(RecordScore);
     }
 }

@@ -33,7 +33,7 @@ public class Timer : MonoBehaviour
         }
 
         UpdateTimerUI();
-        acceleration += 0.001f; // постепенное увеличение ускорения
+        acceleration += 0.0001f; // постепенное увеличение ускорения
     }
 
     void UpdateTimerUI()

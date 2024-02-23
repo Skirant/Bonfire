@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2351919741632060094}
   m_Layer: 0
   m_Name: Wood
-  m_TagString: Untagged
+  m_TagString: Wood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,7 +95,7 @@ Animator:
   m_GameObject: {fileID: 7984632860243752304}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 348848ad65f10d94bb0afa3574bafc6f, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9b41579554f5c1b40a96ee5e6b888492, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -136,5 +136,5 @@ Transform:
   m_Children:
   - {fileID: 7353167057391634001}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
