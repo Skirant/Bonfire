@@ -139,7 +139,7 @@ public class ObjectSpawner : MonoBehaviour
                     YandexGame.savesData.woodCount = woodCount;
                     MaxScore.text = woodCount.ToString();
                     RecordScore = woodCount;
-                    buttonUI.addition(woodCount);
+                    buttonUI.addition(RecordScore);
                 }
 
                 break;

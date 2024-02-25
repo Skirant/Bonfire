@@ -19,6 +19,27 @@ public class StartGame : MonoBehaviour
 
     //public GameObject timerSlider;    
 
+    public GameObject BlackWindows;
+
+    // Подписываемся на событие GetDataEvent в OnEnable
+    private void OnEnable() => YandexGame.GetDataEvent += GetData;
+
+    // Отписываемся от события GetDataEvent в OnDisable
+    private void OnDisable() => YandexGame.GetDataEvent -= GetData;
+
+    private void Awake()
+    {
+        // Проверяем запустился ли плагин
+        if (YandexGame.SDKEnabled == true)
+        {
+            // Если запустился, то запускаем Ваш метод
+            GetData();
+
+            // Если плагин еще не прогрузился, то метод не запуститься в методе Start,
+            // но он запустится при вызове события GetDataEvent, после прогрузки плагина
+        }
+    }
+
     void Start()
     {
         // Здесь мы останавливаем игру в начале
@@ -91,5 +112,10 @@ public class StartGame : MonoBehaviour
     {
         // Теперь остаётся сохранить данные
         YandexGame.SaveProgress();
+    }
+
+    public void GetData()
+    {
+        BlackWindows.SetActive(false);
     }
 }

@@ -9,7 +9,7 @@ public class ButtonUI : MonoBehaviour
     public void addition(int record)
     {
         Score = record;
-        Debug.Log(Score);
+        //Debug.Log(Score);
     }
 
     public void SendNewRecord()
