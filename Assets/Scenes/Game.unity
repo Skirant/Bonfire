@@ -3258,6 +3258,7 @@ GameObject:
   - component: {fileID: 1400846298}
   - component: {fileID: 1400846299}
   - component: {fileID: 1400846301}
+  - component: {fileID: 1400846302}
   m_Layer: 0
   m_Name: _GameManager
   m_TagString: Untagged
@@ -3272,7 +3273,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1400846295}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a1b8836e9410a7439336d696a7bb270, type: 3}
   m_Name: 
@@ -3281,6 +3282,7 @@ MonoBehaviour:
   timeLimit: 16
   acceleration: 0.1
   timerSlider: {fileID: 1056293987}
+  objectSpawner: {fileID: 1400846298}
 --- !u!4 &1400846297
 Transform:
   m_ObjectHideFlags: 0
@@ -3303,7 +3305,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1400846295}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d60f45e77dc330142bc2dbae538c4243, type: 3}
   m_Name: 
@@ -3316,9 +3318,9 @@ MonoBehaviour:
   woodCount: 0
   score: {fileID: 403899966}
   MaxScore: {fileID: 51179858}
-  GameOver: 0
   uiManager: {fileID: 1954896857}
   buttonUI: {fileID: 1954896860}
+  GameOver: 0
 --- !u!114 &1400846299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3326,7 +3328,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1400846295}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6bf45c0a0f2efb949ba66a45b16b0a10, type: 3}
   m_Name: 
@@ -3345,12 +3347,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGameStarted: 0
+  gameOverProcessed: 0
   playerController: {fileID: 1400846299}
   objectSpawner: {fileID: 1400846298}
   timer: {fileID: 1400846296}
+  gameOver: {fileID: 1400846302}
   StartCanvas: {fileID: 1322220394}
-  GameOverCanvas: {fileID: 1334889323}
-  Timer: {fileID: 1056293985}
   BlackWindows: {fileID: 689497048}
 --- !u!114 &1400846301
 MonoBehaviour:
@@ -3365,6 +3367,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startGame: {fileID: 1400846300}
+--- !u!114 &1400846302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400846295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fcb6f4780db12c4d926068545f856b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 1400846299}
+  objectSpawner: {fileID: 1400846298}
+  startGamel: {fileID: 1400846300}
+  Timer: {fileID: 1056293985}
+  GameOverCanvas: {fileID: 1334889323}
 --- !u!1 &1612636983
 GameObject:
   m_ObjectHideFlags: 0
@@ -7544,8 +7563,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3157483472541429372, guid: caf9732433f4dc044845763962493607, type: 3}
+      propertyPath: pauseType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3157483472541429372, guid: caf9732433f4dc044845763962493607, type: 3}
       propertyPath: pauseMethod
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

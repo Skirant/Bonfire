@@ -6,7 +6,8 @@ public class Timer : MonoBehaviour
     [HideInInspector] public float timer;
     [SerializeField] private float timeLimit = 16f;
     [SerializeField] private float acceleration = 0.1f; // переменная для контроля ускорения таймера
-    [SerializeField] public Slider timerSlider;    
+    [SerializeField] public Slider timerSlider;
+    [SerializeField] private ObjectSpawner objectSpawner;
 
     private void Start()
     {
@@ -24,7 +25,8 @@ public class Timer : MonoBehaviour
             if (timer <= 0f)
             {
                 timer = 0f;
-                Debug.Log("Time out");
+
+                objectSpawner.GameOver= true;
             }
             else if (timer >= timeLimit)
             {

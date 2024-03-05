@@ -17,14 +17,14 @@ public class ObjectSpawner : MonoBehaviour
 
     public int woodCount = 0;
     public TextMeshProUGUI score;
-    public TextMeshProUGUI MaxScore;
-
-    public bool GameOver = false;
+    public TextMeshProUGUI MaxScore;    
 
     public UIManager uiManager;
     public ButtonUI buttonUI;
 
     private int RecordScore;
+
+    [HideInInspector]public bool GameOver = false;
 
     // Подписываемся на событие GetDataEvent в OnEnable
     private void OnEnable() => YandexGame.GetDataEvent += GetLoad;

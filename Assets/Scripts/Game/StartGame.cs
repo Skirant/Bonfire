@@ -4,16 +4,14 @@ using YG;
 public class StartGame : MonoBehaviour
 {
     [HideInInspector] public bool isGameStarted = false;
+    [HideInInspector] public bool gameOverProcessed = false;
 
     public PlayerController playerController;
     public ObjectSpawner objectSpawner;
     public Timer timer;
+    public GameOver gameOver;
 
     public Canvas StartCanvas;
-    public Canvas GameOverCanvas;
-    public GameObject Timer;
-
-    private bool gameOverProcessed = false;
 
     private float fullscreenShowTimer = 0;
 
@@ -34,7 +32,6 @@ public class StartGame : MonoBehaviour
         {
             // Если запустился, то запускаем Ваш метод
             GetData();
-
             // Если плагин еще не прогрузился, то метод не запуститься в методе Start,
             // но он запустится при вызове события GetDataEvent, после прогрузки плагина
         }
@@ -43,11 +40,13 @@ public class StartGame : MonoBehaviour
     void Start()
     {
         // Здесь мы останавливаем игру в начале
-        Time.timeScale = 0;
+        // Time.timeScale = 0;
         playerController.enabled = false;
         objectSpawner.enabled = false;
         timer.enabled = false;
         // timerSlider.SetActive(false);
+
+        YandexGame.FullscreenShow();
     }
 
     void Update()
@@ -55,10 +54,13 @@ public class StartGame : MonoBehaviour
         if (!isGameStarted && Input.GetKeyDown(KeyCode.Space))
         {
             // Здесь мы возобновляем игру после первого нажатия пробела
-            Time.timeScale = 1;
-            playerController.enabled = true;
-            objectSpawner.enabled = true;
-            timer.enabled = true;
+            //  Time.timeScale = 1;
+            if (Time.timeScale >= 1)
+            {
+                playerController.enabled = true;
+                objectSpawner.enabled = true;
+                timer.enabled = true;
+            }               
 
             // timerSlider.SetActive(true);
 
@@ -76,27 +78,8 @@ public class StartGame : MonoBehaviour
 
         if (objectSpawner.GameOver && !gameOverProcessed)
         {
-            GameOver();
+            gameOver.Realization();
         }
-    }
-
-    void GameOver()
-    {
-        Debug.Log("+");
-
-        playerController.enabled = false;
-        objectSpawner.enabled = false;
-        Timer.SetActive(false);
-
-        GameOverCanvas.enabled = true;
-
-        gameOverProcessed = true;
-
-        GameObject taggedObject = GameObject.FindWithTag("Canvas");
-        Animator animator = taggedObject.GetComponent<Animator>();
-        animator.SetTrigger("GameOver");
-
-        MySave();
     }
 
     void SnowADD()
@@ -108,11 +91,7 @@ public class StartGame : MonoBehaviour
         }
     }
 
-    public void MySave()
-    {
-        // Теперь остаётся сохранить данные
-        YandexGame.SaveProgress();
-    }
+
 
     public void GetData()
     {
